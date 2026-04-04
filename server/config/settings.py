@@ -2,17 +2,17 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
+from core.utils.env import env
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR: Path = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY: str = os.getenv("SECRET_KEY")
-
-DEBUG: bool = os.getenv("DJANGO_DEBUG") == "True"
-
-ALLOWED_HOSTS: list[str] = os.getenv("DJANGO_ALLOWED_HOSTS").split("|")
+SECRET_KEY: str = env.secret_key
+DEBUG: bool = env.debug
+ALLOWED_HOSTS: list[str] = env.allowed_hosts
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -53,16 +53,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "config.wsgi.application"
 
-DBS = {
+DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.getenv("DB_NAME"),
-        "USER": os.getenv("DB_USER"),
-        "PASSWORD": os.getenv("DB_PASSWORD"),
-        "HOST": os.getenv("DB_HOST"),
-        "PORT": os.getenv("DB_PORT"),
+        "NAME": env.db_name,
+        "USER": env.db_user,
+        "PASSWORD": env.db_password,
+        "HOST": env.db_host,
+        "PORT": env.db_port,
     }
 }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
