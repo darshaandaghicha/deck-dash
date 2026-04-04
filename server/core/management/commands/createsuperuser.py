@@ -12,13 +12,15 @@ class Command(createsuperuser.Command):
 
     def handle(self, *args, **options):
         current_ip = gethostbyname(gethostname())
+        allowed_ips = env.create_su_ips
 
-        try:
-            su_ip = env.create_su_ips()
-            if current_ip != su_ip:
-                return print("YOU ARE NOT AUTHORIZED to CREATE SUPER USER.")
-        except ValueError as err:
-            print(f"Env Error: ${err}")
-        finally:
-            super().handle(*args, **options)
+        if not allowed_ips or current_ip not in allowed_ips:
+            self.stdout.write(
+                self.style.ERROR(
+                    f"ACCESS DENIED: IP {current_ip} is not authorized to create a superuser."
+                )
+            )
+            return None
+        self.stdout.write(self.style.SUCCESS(f"IP {current_ip} authorized."))
+        super().handle(*args, **options)
         return None
