@@ -13,9 +13,9 @@ BASE_DIR: Path = Path(__file__).resolve().parent.parent
 SECRET_KEY: str = env.secret_key
 DEBUG: bool = env.debug
 ALLOWED_HOSTS: list[str] = env.allowed_hosts
+AUTH_USER_MODEL = "core.User"
 
 INSTALLED_APPS = [
-    "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
