@@ -1,4 +1,8 @@
+from datetime import timedelta
+from random import randint
+
 from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import PermissionsMixin
 from django.db.models import ForeignKey, Model, CASCADE, Index
 from django.db.models.fields import (
@@ -8,6 +12,7 @@ from django.db.models.fields import (
     BooleanField,
     TextField,
 )
+from django.utils.timezone import now
 
 from core.managers import CustomUserManager
 
@@ -79,3 +84,17 @@ class Otp(Model):
 
     class Meta:
         db_table = "otps"
+
+    @classmethod
+    def generate_for_user(cls, user, intent="registration"):
+        buffer_time = now() - timedelta(minutes=5)
+
+        existing_otp = cls.objects.filter(
+            user=user, intent=intent, issued_at__gt=buffer_time
+        ).last()
+        if existing_otp:
+            existing_otp.delete()
+
+        plain_otp = str(randint(100000, 999999))
+        cls.objects.create(user=user, intent=intent, otp_hash=make_password(plain_otp))
+        return plain_otp

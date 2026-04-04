@@ -1,1 +1,5 @@
-urlpatterns = []
+from django.urls import path, include
+
+urlpatterns = [
+    path("api/auth/", include("core.api.auth.urls")),
+]
