@@ -80,6 +80,14 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = env.email_host
+EMAIL_PORT = env.email_port
+EMAIL_HOST_USER = env.email_user
+EMAIL_HOST_PASSWORD = env.email_password
+EMAIL_USE_TLS = env.email_use_tls
+DEFAULT_FROM_EMAIL = env.email_sender
+
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"

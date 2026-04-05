@@ -58,5 +58,30 @@ class Env:
     def create_su_ips(self):
         return self.get("CREATE_SU_IPS", default=[], cast=Csv())
 
+    # --- Email Settings ---
+    @property
+    def email_host(self):
+        return self.get("EMAIL_HOST")
+
+    @property
+    def email_port(self):
+        return self.get("EMAIL_PORT", cast=int)
+
+    @property
+    def email_user(self):
+        return self.get("EMAIL_HOST_USER")
+
+    @property
+    def email_password(self):
+        return self.get("EMAIL_HOST_PASSWORD")
+
+    @property
+    def email_use_tls(self):
+        return self.get("EMAIL_USE_TLS", default=False, cast=bool)
+
+    @property
+    def email_sender(self):
+        return self.get("EMAIL_DEF_SENDER")
+
 
 env = Env()

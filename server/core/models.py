@@ -33,6 +33,14 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
+    @property
+    def display_name(self) -> str:
+        first: str = (self.first_name or "").strip()
+        last: str = (self.last_name or "").strip()
+        if first and last:
+            return f"{last} {first}"
+        return first or last or "User"
+
     class Meta:
         db_table = "users"
 

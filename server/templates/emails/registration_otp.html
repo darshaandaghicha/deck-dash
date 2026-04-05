@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>DeckDash Registration OTP</title>
+		<base target="_top" />
+	</head>
+	<body>
+		<div style="font-family: Helvetica, Arial, sans-serif; min-width: 1000px; overflow: auto; line-height: 2">
+			<div style="margin: 0 auto; width: max-content; padding: 0 10px; color: #fff">
+				<img
+					src="https://raw.githubusercontent.com/darshaandaghicha/deck-dash/refs/heads/main/client/public/logo.png"
+					height="200px"
+					alt="logo"
+				/>
+			</div>
+			<div style="margin: 50px auto; margin-top: 0 !important; width: 80%; padding: 20px 0">
+				<p style="font-size: 15px">Hello {{user}},</p>
+				<p>
+					Thank you for choosing DeckDash. Use this OTP to complete your Sign-Up procedures and verify your account on
+					DeckDash.
+				</p>
+				<p>Remember, Never share this OTP with anyone.</p>
+				<h2
+					contenteditable="true"
+					style="
+						background: #702963;
+						font-family: monospace;
+						margin: 0 auto;
+						width: max-content;
+						padding: 0 10px;
+						color: #fff;
+						border-radius: 4px;
+					"
+				>
+					{{otp}}
+				</h2>
+
+				<p>The OTP will expire in 5 minutes.</p>
+				<p style="font-size: 15px">Regards,<br />Team DeckDash</p>
+				<hr style="border: none; border-top: 5px solid #aa336a; border-radius: 20px" />
+				<div style="padding: 8px 0; color: #aaa; font-style: italic; font-size: 0.8em; line-height: 1; font-weight: 300">
+					<p style="margin: 0 auto; width: max-content; padding: 0 10px">DeckDash &copy;</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

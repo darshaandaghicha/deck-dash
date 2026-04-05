@@ -9,6 +9,7 @@ from rest_framework.views import APIView
 
 from core.api.auth.serializers import SignUpSerializer
 from core.models import Otp
+from utils.email_service import EmailService
 
 User = get_user_model()
 
@@ -22,17 +23,30 @@ class SignUpView(APIView):
             user = serializer.save()
             # TODO
             plain_otp = Otp.generate_for_user(user)
-            print(f"--------------------------------")
-            print(f"OTP for {user.email}: {plain_otp}")
-            print(f"--------------------------------")
-            return Response(
-                {
-                    "message": "User created successfully. Kindly check your email for TOTP which is valid for 5 minutes.",
-                    "success": True,
-                    "user": serializer.data,
-                },
-                status=status.HTTP_201_CREATED,
+
+            email_sent = EmailService.send_email(
+                [user.email],
+                "Sign Up OTP - DeckDash",
+                "registration_otp",
+                {"otp": plain_otp, "user": user.display_name},
             )
+            if email_sent == 1:
+                return Response(
+                    {
+                        "message": "User created successfully. Kindly check your email for TOTP which is valid for 5 minutes.",
+                        "success": True,
+                        "user": serializer.data,
+                    },
+                    status=status.HTTP_201_CREATED,
+                )
+            else:
+                return Response(
+                    {
+                        "message": "Unable to send email to the user!",
+                        "success": False,
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
         return Response(
             {"messages": serializer.errors, "success": False},
             status=status.HTTP_400_BAD_REQUEST,
